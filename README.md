@@ -104,3 +104,9 @@ Or compile the ZRG directly with
 
     cd rg/
     gf --make ZWNLangZul.gf
+
+## Other resources
+
+We have included `map.csv`, which captures the `VP` tree structures associated with the ZWN written forms along with other relevant information.
+
+We have also included `analysis.selection`, which is the output of the process followed to evaluate this tool as having 96% accuracy. The [ZulMorph](https://portal.sadilar.org/FiniteState/demo/zulmorph/) morphological analyser was used to validate generated tokens, along with some manual evaluation where morphological analysis failed.
