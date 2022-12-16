@@ -1,7 +1,7 @@
 # African Wordnet Zulu adjectives tool
 
 ## Introduction
-The tool presented here is based on the Zulu Grammatical Framework resource grammar and seeks to extend the usage of adjectives in the Zulu African Wordnet.
+The tool presented here is based on the Zulu Grammatical Framework resource grammar and seeks to extend the usage of adjectives in the Zulu African Wordnet. For more information, see [GWC2023](https://www.hitz.eus/gwc2023/programme).
 
 ## Prelimininaries
 
