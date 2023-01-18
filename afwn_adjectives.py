@@ -35,6 +35,16 @@ pol_map = {
     ('Neg','ZWN_PNeg')
 }
 
+def lookup_all(key,map,reverse=False):
+    try:
+        if reverse:
+            v = [v for (v,k) in map if key == k]
+        else:
+            v = [v for (k,v) in map if key == k]
+        return v
+    except IndexError:
+        return key
+
 def lookup(key,map,reverse=False):
     try:
         if reverse:
@@ -59,13 +69,13 @@ def print_console_row(t,p,c,f,l,a,column_width):
     sep3 = ' '*(column_width-len(c))
     sep4 = ' '*(column_width-len(f))
     sep5 = ' '*(column_width-len(l))
-    print(f'{t}{sep1}{p}{sep2}{c}{sep3}{f}{sep4}{l}{sep5}{a}')
+    print(f' {t}{sep1}{p}{sep2}{c}{sep3}{f}{sep4}{l}{sep5}{a}')
 
 def print_console(data,heading=True,final_column='Qualificative'):
     column_width = 11
     if heading:
         print_console_row('Tense','Polarity','Class','Form','Long/short',final_column,column_width)
-        print('-'*(6*column_width))
+        print(' '+'-'*(6*column_width))
 
     for (t,p,c,f,l,a) in data:
         print_console_row(t,p,c,f,l,a,column_width)
@@ -181,37 +191,41 @@ def analyze(grammar,concrete,args):
 
         # TEMP
         temp_fun,temp_c = grandchildren[0].unpack()
-        t = lookup(temp_fun,temp_map,True)
+        ts = lookup_all(temp_fun,temp_map,True)
 
         # POL
         pol_fun,pol_c = grandchildren[1].unpack()
-        p = lookup(pol_fun,pol_map,True)
+        ps = lookup_all(pol_fun,pol_map,True)
 
         # CLASS
         pron_fun,pron_c = grandchildren[2].unpack()
-        c = lookup(pron_fun,agr_map,True)
+        cs = lookup_all(pron_fun,agr_map,True)
 
-        # FORM
-        f = 'Pred' if 'Predic' in child_str else 'Attr'
+        for t in ts:
+            for p in ps:
+                for c in cs:
+                    
+                    # FORM
+                    f = 'Pred' if 'Predic' in child_str else 'Attr'
 
-        # LONG/SHORT
-        l = 'short' if 'Short' in child_str else 'long'
+                    # LONG/SHORT
+                    l = 'short' if 'Short' in child_str else 'long'
 
-        # ADJECTIVE
-        adj_f,adj_c = grandchildren[3].unpack()
-        # deal with underscores and spaces
-        f_pieces = adj_f.split('_')
-        f_name = '_'.join(f_pieces[0:-2])
-        a = f_name.replace('_',' ')
+                    # ADJECTIVE
+                    adj_f,adj_c = grandchildren[3].unpack()
+                    # deal with underscores and spaces
+                    f_pieces = adj_f.split('_')
+                    f_name = '_'.join(f_pieces[0:-2])
+                    a = f_name.replace('_',' ')
 
-        d_ = (t,p,c,f,l,a)
-        copy = False
-        for i in range(len(data)):
-            if long_short_equiv(d_,data[i]):
-                data[i] = (t,p,c,f,'',a)
-                copy = True
-        if not copy:
-            data.append(d_)
+                    d_ = (t,p,c,f,l,a)
+                    copy = False
+                    for i in range(len(data)):
+                        if long_short_equiv(d_,data[i]):
+                            data[i] = (t,p,c,f,'',a)
+                            copy = True
+                    if not copy:
+                        data.append(d_)
     data = sorted(list(set(data)))
     print_console(data,final_column='Adjective')
 
