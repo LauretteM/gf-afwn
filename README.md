@@ -15,15 +15,18 @@ Run the following to see the top-level usage instructions.
 
     $ python3 afwn_adjectives.py -h
 
-    usage: afwn_adjectives.py [-h] {query,construct} ...
+    usage: afwn_adjectives.py [-h] {query,generate,analyze} ...
 
-     positional arguments:
-       {query,construct}  sub-command help
-         query            find adjectives
-         construct        get correct Zulu adjective constructions
+    positional arguments:
+      {query,generate,analyze}
+                            sub-command help
+        query               check support for an English adjective
+        generate            get correct Zulu qualificative constructions (enclose multiword adjectives in quotes, use ? as wild card)
+        analyze             get analysis of a Zulu qualificative
 
-     optional arguments:
-       -h, --help         show this help message and exit
+    optional arguments:
+      -h, --help            show this help message and exit
+
 
 ### Query English
 To check for support for English adjectives, use `query`.
